@@ -1,0 +1,4 @@
+node_modules/
+caderno/fonte/db.json
+*.pkl
+__pycache__/
