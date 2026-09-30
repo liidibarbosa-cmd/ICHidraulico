@@ -1,0 +1,72 @@
+# Pranchas de Pontos Hidráulicos — Residência Ivan e Ana Neris — R01
+Nova Odessa, SP · 30/09/2026 · padrão gráfico das pranchas de elétrica (Tomadas R05)
+
+## Entregável
+`PRANCHAS PONTOS HIDRAULICOS - RESIDENCIA IC - R01.pdf`: 4 pranchas A2 paisagem (594 × 420 mm). Imprimir sem ajuste de escala.
+
+| Prancha | Conteúdo | Escalas |
+|---|---|---|
+| 01/04 | Planta geral de pontos, selos das ampliações, pontos externos X1–X4 cotados, fontes das alturas | 1:100 |
+| 02/04 | Ampliações: Cozinha (C1–C4), Gourmet (G1), Lavanderia (L1–L5) + vista da parede do tanque | 1:25 |
+| 03/04 | Ampliações: WC 01, WC 02, WC Suíte Master, WC Externo + vistas das paredes hidráulicas | 1:25 · 1:50 |
+| 04/04 | Piscina Vallauris (iGUi): implantação, esquema dos pontos, planta e cortes do modelo | 1:100 · 1:50 |
+
+Prévias PNG em `fonte/previa/`.
+
+## Escopo
+Prancha de **localização de pontos** (posição em planta + altura do piso acabado). Não é projeto de dimensionamento:
+diâmetros, trajetos, declividades, ventilação, caixas e ramais seguem o projeto hidrossanitário. O único diâmetro citado
+(ladrão 3/4" do skimmer) é transcrito da prancha de Tomadas R05, quadro 1C.
+
+## Fontes
+| Arquivo (`referencias/pdfs_originais/`) | Uso |
+|---|---|
+| CADERNO ... PONTOS HIDRAULICOS.pdf (LayOut, folha 07, Rev. 01, 29/09/2026, 1:200) | **Posição dos pontos** (cotas). Prevalece sobre o caderno nas divergências (decisão de 30/09). |
+| CADERNO ... HIDRAULICA DETALHE.pdf (Rev. 02, 24/09/2026) | Tipos de ponto e alturas (fonte **C**). |
+| CADERNO ... TOMADAS 2.pdf (R05, 30/09/2026) | Padrão gráfico, planta-base (paredes), casa de máquinas G7, itens hidráulicos da piscina (quadro 1C), afastamento tomada × lava-louças (13.5). |
+| VALLAURIS - IGUI.pdf (desenho técnico 01/01) | Geometria da piscina (planta e cortes redesenhados dos vetores). |
+| DETALHAMENTO A2 - LAYOUT (Rev. 01, 01/05/2026, 1:75) | Posição da piscina no lote (medida graficamente, **a conferir**). |
+
+Cada altura traz a letra da sua fonte: **C** caderno Rev. 02 · **D** definição do cliente em 30/09 · **P** padrão do escritório
+(valores do R02, confirmados em 30/09) · **A** adotado do padrão do chuveiro, a confirmar (só a ducha da piscina).
+
+## Decisões do cliente (30/09/2026)
+- Base: planta da prancha de Tomadas (mesma arquitetura, sem os símbolos elétricos). Prevalece a planta de pontos de 29/09.
+- Carimbo: "Residência Ivan e Ana Neris"; Isadora Ferrari **CAU A269382-8** (a prancha de Tomadas R05 traz A263982-8: corrigir lá).
+- Chuveiros com registro misturador; saída identificada como "saída de chuveiro"; AF da bancada do WC Externo a 0,60; secadora elétrica; Gourmet sem outros pontos.
+- Pontos na mesma linha da vista = mesma altura. Cuba da cozinha: AF = AQ (0,50). Gourmet: AF e ESG a 0,50.
+- Geladeira a 3,60 da parede da janela. Gourmet a 1,75 da parede inferior (a "esquerda" na orientação do layout).
+- Lava-louças: o "0,30 m no mínimo" da elétrica é afastamento da tomada.
+- Lavanderia: alturas do padrão R02; ponto L2 (bancada do tanque) existe, no meio das torneiras (0,64).
+- WC 02 espelhado do WC 01. Válvula de descarga, registro geral, ducha higiênica, bacia e cubas: padrão R02.
+- Pontos externos: X1 ducha de água fria da piscina (eixo 2,57) e X2 seu registro (eixo 3,07); X3 e X4 torneiras de jardim a 0,50.
+- Piscina: posição do layout, skimmer/retorno/G7 conforme a instaladora iGUi.
+
+## Pendências
+1. Alturas da ducha da piscina (X1 2,10 · X2 1,10): adotadas do padrão do chuveiro, confirmar.
+2. Registro geral dos banheiros: eixo sem cota (dentro do armário), definir com a marcenaria.
+3. Piscina: conferir implantação (3,63 da fachada / 1,50 do muro), orientação de escada/banco e posições de skimmer, retorno, reposição e grelha com a iGUi.
+4. CAU da Isadora divergente na prancha de Tomadas R05.
+5. O caderno anterior (`caderno/`, R02) continua no repositório; estas pranchas não usam as propostas de mercado dele (exceto os valores que o cliente confirmou como padrão).
+
+## Conferência (`fonte/verificar.py`)
+- Todas as cotas fecham com a geometria desenhada (ponto = face de referência + valor cotado).
+- Posição × planta de pontos: diferenças de 0 a 3 cm, vindas da diferença entre as paredes da base elétrica e da planta de pontos
+  (maiores: tanquinho 3,1 cm, face direita da lavanderia; chuveiro do WC Suíte Master 3,1 cm, face inferior). As cotas escritas são as da planta.
+- Alturas com fonte C conferidas com o texto do caderno Rev. 02. Códigos, cotas e carimbos presentes no PDF.
+
+## Como regenerar
+```bash
+cd pranchas_pontos/fonte
+npm i                                   # playwright (Chromium já instalado no ambiente)
+python3 vetorizar_base.py "../../referencias/pdfs_originais/CADERNO DETALHAMENTO RESIDENCIA IC - TOMADAS 2.pdf"   # base.json
+python3 pranchas.py                     # pranchas.html
+node imprimir.mjs .. "PRANCHAS PONTOS HIDRAULICOS - RESIDENCIA IC - R01.pdf"
+python3 verificar.py "../PRANCHAS PONTOS HIDRAULICOS - RESIDENCIA IC - R01.pdf"
+```
+- `dados_pontos.py`: pontos, cotas, alturas e fontes (editar aqui).
+- `vetorizar_base.py`: remove os símbolos elétricos do raster da planta de Tomadas (abertura morfológica) e vetoriza paredes/janelas;
+  grava também o registro afim planta de pontos → base (`A_pt2base.npy`, obtido por ECC; escala 127,7 px/m, rotação desprezível).
+- `planta.py`, `ampliacoes.py`, `piscina.py`, `pranchas.py`: desenho; `svgkit.py`: padrão gráfico (painéis, carimbo, tipografia).
+- `build_fonte_aloevera.py`: reconstrói a Aloevera Display dos títulos a partir dos subconjuntos embutidos nos cadernos do escritório
+  (mapa ToUnicode). Faltam os glifos 8, 9, H, K, U, X, Y, Z, k, w, y, ó, ú: evitar nos títulos.
