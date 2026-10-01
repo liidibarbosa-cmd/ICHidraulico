@@ -70,3 +70,22 @@ python3 verificar.py "../PRANCHAS PONTOS HIDRAULICOS - RESIDENCIA IC - R01.pdf"
 - `planta.py`, `ampliacoes.py`, `piscina.py`, `pranchas.py`: desenho; `svgkit.py`: padrão gráfico (painéis, carimbo, tipografia).
 - `build_fonte_aloevera.py`: reconstrói a Aloevera Display dos títulos a partir dos subconjuntos embutidos nos cadernos do escritório
   (mapa ToUnicode). Faltam os glifos 8, 9, H, K, U, X, Y, Z, k, w, y, ó, ú: evitar nos títulos.
+
+---
+
+# Prancha de Pontos de Gás (GLP) — R01 · 01/10/2026
+`../gas/PRANCHA PONTOS DE GAS - RESIDENCIA IC - R01.pdf` (A2 paisagem, 01/01, mesmo padrão gráfico). Fonte: `fonte/gas.py` → `fonte/gas.html`.
+
+- **AB · Abrigo de GLP, 2 botijões P13**: no recuo do corredor externo, sob as condensadoras C1 e C2, na projeção de cada uma
+  (1,00 × 0,40 m, hachura da prancha de Tomadas R05). Dimensões finais, porta, ventilação e disposição dos botijões a definir.
+- **PG1 · Fogão de piso 5 bocas**: parede superior da cozinha, eixo a 1,36 da parede da janela (eixo de fogão/coifa da Tomadas R05),
+  a 0,60 do piso acabado (definição do cliente, 01/10/2026). Único ponto de consumo (cooktop do gourmet, secadora e trocador
+  da piscina elétricos; churrasqueira a carvão).
+- Desenhos: planta de localização 1:100, abrigo 1:25, parede do fogão 1:25 e vista da parede do fogão 1:25 com as tomadas de
+  acendimento (0,30) e da coifa (2,065) da elétrica no mesmo eixo.
+- Não é projeto de gás: rede, diâmetros, trajeto, regulador, registros e ventilação conforme NBR 15526 / NBR 13523 / IT 28 (CBPMESP).
+- **Verificar**: afastamentos do abrigo em relação às condensadoras e às tomadas C (fontes de ignição), às janelas do WC 01 e WC 02
+  e a ralos; acesso para troca dos botijões; afastamento entre o ponto do fogão e a tomada de acendimento. Posição das condensadoras
+  ainda "a confirmar" no caderno de ar condicionado.
+
+Regenerar: `python3 gas.py && HTML=gas.html PREFIXO=gas node imprimir.mjs ../gas "PRANCHA PONTOS DE GAS - RESIDENCIA IC - R01.pdf"`
