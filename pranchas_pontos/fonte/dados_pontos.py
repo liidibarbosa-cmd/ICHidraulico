@@ -16,15 +16,15 @@ ALTURAS (a partir do piso acabado), com a fonte de cada valor:
   A = Adotado a partir do padrao do chuveiro (saida 2,10 / registro 1,10) - CONFIRMAR
 """
 
-REV = 'R01'
-DATA = '30/09/2026'
+REV = 'R02'
+DATA = '02/10/2026'
 PROJETO = 'Residência Ivan e Ana Neris'
 ENDERECO = 'Nova Odessa – SP'
-RESP = ['Lidiane Barbosa · CAU A290220-6', 'Isadora Ferrari · CAU A269382-8']
+RESP = ['Lidiane Barbosa · CAU A290220-6', 'Isadora Ferrari · CAU A263982-8']
 
 FONTES = {
     'C': 'Caderno Hidráulica Detalhe · Rev. 02 · 24/09/2026',
-    'D': 'Definição do cliente · 30/09/2026',
+    'D': 'Definição do cliente · 30/09 e 02/10/2026',
     'P': 'Padrão do escritório (R02) · confirmado em 30/09/2026',
     'A': 'Adotado do padrão do chuveiro · confirmar',
 }
@@ -50,7 +50,8 @@ F = dict(
     COZ_esq=1.850, COZ_sup=13.531, COZ_inf=17.764,
     GOU_esq=7.443, GOU_sup=7.827, GOU_inf=12.362,
     LAV_esq=1.850, LAV_dir=4.625, LAV_inf=19.935, LAV_sup=17.905,
-    MURO=0.270, CASA_ext=10.622,            # muro (face interna) e face externa da parede da casa (lado piscina)
+    MURO=0.270, CASA_ext=10.622,           # muro (face interna) e face externa da parede da casa (lado piscina)
+    MURETA_n=16.016,                       # face norte da mureta do balcao da cozinha (1,83 x 0,11 m, DWG Prefeitura)
     COZ_ext=1.709, PORTAO=19.920,           # corredor externo: face externa da parede da cozinha; face do portao
     SALA_ext=11.633, RECUO_sup=15.929,      # recuo junto a sala
 )
@@ -67,12 +68,13 @@ def P(cod, peca, x, y, parede, serv, cotas, eixo_txt, nota=None, esquematico=Fal
 # servicos padrao dos banheiros
 def chuveiro(): return [('SC', '2,10', 'C'), ('AF', '1,10', 'C'), ('AQ', '1,10', 'C')]
 def ducha():    return [('AF', '0,50', 'P')]
-def bacia():    return [('AF', '0,30', 'P'), ('ESG', 'piso', 'C'), ('VD', '1,10', 'P')]
+def bacia():    return [('AF', '0,30', 'P'), ('ESG', 'piso', 'C')]          # caixa acoplada Roca ONA: sem VD (R02)
 def cuba(af_fonte='C'): return [('AF', '0,60', af_fonte), ('AQ', '0,60', 'D'), ('ESG', '0,50', 'P')]
 def rg(fonte='P'): return [('RG', '0,55', fonte)]
 
-NOTA_CHUV = 'Saída de chuveiro + registro misturador (AF/AQ) no mesmo eixo.'
-NOTA_BACIA = 'Válvula de descarga no eixo da bacia.'
+NOTA_CHUV = ('Kit Deca Acqua Plus + misturador de duas alavancas (Deca 4900). Registros AF/AQ já executados: '
+             'afastamento lateral entre eles a medir em obra.')
+NOTA_BACIA = 'Caixa acoplada Roca ONA: sem válvula de descarga. Altura do ponto AF (0,30) a conferir na ficha da Roca.'
 NOTA_RG = 'Eixo sem cota: dentro do armário da bancada. Definir com a marcenaria.'
 
 AMB = {}
@@ -83,7 +85,7 @@ AMB['COZ'] = dict(nome='Cozinha', sigla='COZ', pontos=[
       [('AF', '1,00', 'C')],
       [cota('y', F['COZ_inf'], F['COZ_inf'] - 1.01, '1,01', 'parede inferior')],
       '1,01 da parede inferior'),
-    P('C2', 'Cuba da pia · torneira de bancada', F['COZ_esq'], F['COZ_inf'] - 2.16, 'esq',
+    P('C2', 'Cuba da pia · misturador monocomando', F['COZ_esq'], F['COZ_inf'] - 2.16, 'esq',
       [('AF', '0,50', 'D'), ('AQ', '0,50', 'C'), ('ESG', '0,35', 'C')],
       [cota('y', F['COZ_inf'], F['COZ_inf'] - 2.16, '2,16', 'parede inferior')],
       '2,16 da parede inferior'),
@@ -91,17 +93,17 @@ AMB['COZ'] = dict(nome='Cozinha', sigla='COZ', pontos=[
       [('AF', '1,25', 'C')],
       [cota('x', F['COZ_esq'], F['COZ_esq'] + 3.60, '3,60', 'parede da janela')],
       '3,60 da parede da janela (esquerda)', nota='Cota de 3,60 definida pelo cliente em 30/09 (planta: 3,59).'),
-    P('C4', 'Lava-louças (ilha)', F['COZ_esq'] + 1.90, F['COZ_sup'] + 2.30, None,
+    P('C4', 'Lava-louças · face da mureta', F['COZ_esq'] + 1.90, F['MURETA_n'], 'inf',
       [('AF', '0,60', 'C'), ('ESG', '0,50', 'P')],
-      [cota('x', F['COZ_esq'], F['COZ_esq'] + 1.90, '1,90', 'parede da janela'),
-       cota('y', F['COZ_sup'], F['COZ_sup'] + 2.30, '2,30', 'parede superior')],
-      '1,90 da parede da janela · 2,30 da parede superior',
-      nota='Tomada da face do balcão afastada no mínimo 0,30 m dos pontos de água e esgoto (Tomadas R05, item 13.5).'),
+      [cota('x', F['COZ_esq'], F['COZ_esq'] + 1.90, '1,90', 'parede da janela')],
+      '1,90 da parede da janela · na face norte da mureta do balcão (≈0,32 da ponta)',
+      nota='Água e esgoto saem pela mureta do balcão (decisão de 02/10). Ponto de água sem torneira própria. '
+           'Tomada da face do balcão afastada no mínimo 0,30 m (Tomadas R05, item 13.5).'),
 ])
 
 # ---------------------------------------------------------------- Gourmet
-AMB['GOU'] = dict(nome='Gourmet', sigla='GOU', pontos=[
-    P('G1', 'Cuba · torneira de bancada', F['GOU_esq'], F['GOU_inf'] - 1.75, 'esq',
+AMB['GOU'] = dict(nome='Área Gourmet', sigla='GOU', pontos=[
+    P('G1', 'Cuba · misturador de mesa', F['GOU_esq'], F['GOU_inf'] - 1.75, 'esq',
       [('AF', '0,50', 'D'), ('AQ', '0,50', 'C'), ('ESG', '0,50', 'D')],
       [cota('y', F['GOU_inf'], F['GOU_inf'] - 1.75, '1,75', 'parede inferior')],
       '1,75 da parede inferior (2,80 até a superior, conforme caderno)'),
@@ -109,14 +111,16 @@ AMB['GOU'] = dict(nome='Gourmet', sigla='GOU', pontos=[
 
 # ---------------------------------------------------------------- Lavanderia
 L = F['LAV_esq']
-AMB['LAV'] = dict(nome='Lavanderia', sigla='LAV', pontos=[
+AMB['LAV'] = dict(nome='A.S. · Área de serviço', sigla='LAV', pontos=[
     P('L1', 'Torneira de parede · tanque', L + 0.35, F['LAV_inf'], 'inf',
-      [('AF', '1,00', 'P')], [cota('x', L, L + 0.35, '0,35', 'parede esquerda')], '0,35 da parede esquerda'),
-    P('L2', 'Ponto da bancada do tanque', L + 0.64, F['LAV_inf'], 'inf',
+      [('AF', '1,00', 'P')], [cota('x', L, L + 0.35, '0,35', 'parede esquerda')], '0,35 da parede esquerda',
+      nota='Tanque único I.Corso: uma das duas torneiras (L1 ou L3) será vedada depois.'),
+    P('L2', 'Torneira · lava e seca Brastemp', L + 0.64, F['LAV_inf'], 'inf',
       [('AF', '1,00', 'C'), ('ESG', '0,50', 'P')], [cota('x', L, L + 0.64, '0,64', 'parede esquerda')],
-      '0,64 da parede esquerda (meio das torneiras)', nota='Eixo no meio das duas torneiras (0,64), definido pelo cliente em 30/09.'),
+      '0,64 da parede esquerda (meio das torneiras)', nota='Ponto da lava e seca Brastemp (02/10); eixo no meio das torneiras (30/09).'),
     P('L3', 'Torneira de parede · tanque', L + 0.93, F['LAV_inf'], 'inf',
-      [('AF', '1,00', 'P')], [cota('x', L, L + 0.93, '0,93', 'parede esquerda')], '0,93 da parede esquerda'),
+      [('AF', '1,00', 'P')], [cota('x', L, L + 0.93, '0,93', 'parede esquerda')], '0,93 da parede esquerda',
+      nota='Tanque único I.Corso: uma das duas torneiras (L1 ou L3) será vedada depois.'),
     P('L4', 'Máquina de lavar roupas', L + 1.70, F['LAV_inf'], 'inf',
       [('AF', '0,70', 'C'), ('ESG', '0,60', 'P')], [cota('x', L, L + 1.70, '1,70', 'parede esquerda')], '1,70 da parede esquerda'),
     P('L5', 'Tanquinho', F['LAV_dir'] - 0.31, F['LAV_inf'], 'inf',
@@ -135,7 +139,7 @@ def wc_horizontal(sig, nome, esq, dir_, face, lado, ch, du, ba, cu, rg_fonte='P'
           [cota('x', dir_, dir_ - du, '%.2f' % du, 'parede direita')], '%s da parede direita' % ('%.2f' % du)),
         P(pref + '3', 'Bacia sanitária', dir_ - ba, face, lado, bacia(),
           [cota('x', dir_, dir_ - ba, '%.2f' % ba, 'parede direita')], '%s da parede direita' % ('%.2f' % ba), nota=NOTA_BACIA),
-        P(pref + '4', 'Cuba · torneira de bancada', dir_ - cu, face, lado, cuba(af_cuba),
+        P(pref + '4', 'Cuba · misturador de mesa', dir_ - cu, face, lado, cuba(af_cuba),
           [cota('x', dir_, dir_ - cu, '%.2f' % cu, 'parede direita')], '%s da parede direita' % ('%.2f' % cu)),
         P(pref + '5', 'Registro geral', dir_ - cu - 0.30, face, lado, rg(rg_fonte), [], 'sem cota · dentro do armário',
           nota=NOTA_RG, esquematico=True),
@@ -149,39 +153,39 @@ def _fix(amb):
         p['eixo_txt'] = p['eixo_txt'].replace('.', ',')
     return amb
 
-AMB['W01'] = _fix(wc_horizontal('W01', 'WC 01', F['W01_esq'], F['W01_dir'], F['W01_sup'], 'sup',
-                                0.44, 1.66, 1.48, 0.56, pref='W1.'))
-AMB['W02'] = _fix(wc_horizontal('W02', 'WC 02', F['W02_esq'], F['W02_dir'], F['W02_inf'], 'inf',
-                                0.44, 1.66, 1.48, 0.56, pref='W2.'))
-AMB['W02']['nota'] = 'Espelhado em relação ao WC 01 (mesmas cotas, peças na parede comum).'
-AMB['WEX'] = _fix(wc_horizontal('WEX', 'WC Externo', F['WEX_esq'], F['WEX_dir'], F['WEX_inf'], 'inf',
-                                0.54, 1.95, 1.73, 1.11, rg_fonte='C', af_cuba='D', pref='WE.'))
-AMB['WEX']['pontos'][3]['peca'] = 'Torneira de bancada'
-AMB['WEX']['pontos'][3]['nota'] = 'AF a 0,60 (mesma altura dos demais WCs), decisão do cliente mantida em 30/09.'
+AMB['W01'] = _fix(wc_horizontal('W01', 'Banho Suíte 1', F['W01_esq'], F['W01_dir'], F['W01_sup'], 'sup',
+                                0.44, 1.66, 1.48, 0.56, pref='B1.'))
+AMB['W02'] = _fix(wc_horizontal('W02', 'Banho Suíte 2', F['W02_esq'], F['W02_dir'], F['W02_inf'], 'inf',
+                                0.44, 1.66, 1.48, 0.56, pref='B2.'))
+AMB['W02']['nota'] = 'Espelhado em relação ao Banho Suíte 1 (mesmas cotas, peças na parede comum).'
+AMB['WEX'] = _fix(wc_horizontal('WEX', 'Banho 4', F['WEX_esq'], F['WEX_dir'], F['WEX_inf'], 'inf',
+                                0.54, 1.95, 1.73, 1.11, rg_fonte='C', af_cuba='D', pref='B4.'))
+AMB['WEX']['pontos'][3]['peca'] = 'Cuba de sobrepor · misturador bica alta'
+AMB['WEX']['pontos'][3]['nota'] = 'AF a 0,60 (mesma altura dos demais banhos), decisão mantida em 30/09. Misturador AF/AQ (02/10).'
 
 # WC Suite Master: pecas na parede esquerda (vertical)
 x0 = F['WSM_esq']; sup = F['WSM_sup']; inf = F['WSM_inf']
-AMB['WSM'] = dict(nome='WC Suíte Master', sigla='WSM', pontos=[
-    P('WS.1', 'Chuveiro', x0, inf - 0.53, 'esq', chuveiro(),
+AMB['WSM'] = dict(nome='Banho Suíte Master', sigla='WSM', pontos=[
+    P('BM.1', 'Chuveiro', x0, inf - 0.53, 'esq', chuveiro(),
       [cota('y', inf, inf - 0.53, '0,53', 'parede inferior')], '0,53 da parede inferior', nota=NOTA_CHUV),
-    P('WS.2', 'Ducha higiênica', x0, sup + 0.26, 'esq', ducha(),
+    P('BM.2', 'Ducha higiênica', x0, sup + 0.26, 'esq', ducha(),
       [cota('y', sup, sup + 0.26, '0,26', 'parede superior')], '0,26 da parede superior'),
-    P('WS.3', 'Bacia sanitária', x0, sup + 0.49, 'esq', bacia(),
+    P('BM.3', 'Bacia sanitária', x0, sup + 0.49, 'esq', bacia(),
       [cota('y', sup, sup + 0.49, '0,49', 'parede superior')], '0,49 da parede superior', nota=NOTA_BACIA),
-    P('WS.4', 'Cuba · torneira de bancada', x0, sup + 1.62, 'esq', cuba(),
+    P('BM.4', 'Cuba · misturador de mesa', x0, sup + 1.62, 'esq', cuba(),
       [cota('y', sup, sup + 1.62, '1,62', 'parede superior')], '1,62 da parede superior'),
-    P('WS.5', 'Registro geral', x0, sup + 1.32, 'esq', rg('P'), [], 'sem cota · dentro do armário',
+    P('BM.5', 'Registro geral', x0, sup + 1.32, 'esq', rg('P'), [], 'sem cota · dentro do armário',
       nota=NOTA_RG, esquematico=True),
 ])
 
 # ---------------------------------------------------------------- Areas externas
 AMB['EXT'] = dict(nome='Áreas externas', sigla='EXT', pontos=[
     P('X1', 'Ducha da piscina (água fria)', F['CASA_ext'] + 2.57, F['MURO'], 'sup',
-      [('AF', '2,10', 'A')], [cota('x', F['CASA_ext'], F['CASA_ext'] + 2.57, '2,57', 'face externa da Suíte Master')],
-      '2,57 da face externa da parede da Suíte Master · no muro', nota='Saída da ducha. Altura adotada do padrão do chuveiro: confirmar.'),
+      [('AF', '2,10', 'D')], [cota('x', F['CASA_ext'], F['CASA_ext'] + 2.57, '2,57', 'face externa da Suíte Master')],
+      '2,57 da face externa da parede da Suíte Master · no muro', nota='Saída da ducha (kit chuveirão só água fria). Altura confirmada em 02/10.'),
     P('X2', 'Registro da ducha da piscina', F['CASA_ext'] + 3.07, F['MURO'], 'sup',
-      [('AF', '1,10', 'A')], [cota('x', F['CASA_ext'], F['CASA_ext'] + 3.07, '3,07', 'face externa da Suíte Master')],
-      '3,07 da face externa da parede da Suíte Master · no muro', nota='Registro da ducha. Altura adotada do padrão do chuveiro: confirmar.'),
+      [('AF', '1,10', 'D')], [cota('x', F['CASA_ext'], F['CASA_ext'] + 3.07, '3,07', 'face externa da Suíte Master')],
+      '3,07 da face externa da parede da Suíte Master · no muro', nota='Registro da ducha. Altura confirmada em 02/10.'),
     P('X3', 'Torneira de jardim · corredor externo', F['COZ_ext'], F['PORTAO'] - 2.70, 'dir',
       [('AF', '0,50', 'D')], [cota('y', F['PORTAO'], F['PORTAO'] - 2.70, '2,70', 'portão do corredor')],
       '2,70 do alinhamento do portão · face externa da parede da cozinha'),

@@ -1,8 +1,8 @@
-# Pranchas de Pontos Hidráulicos — Residência Ivan e Ana Neris — R01
+# Pranchas de Pontos Hidráulicos — Residência Ivan e Ana Neris — R02 (02/10/2026)
 Nova Odessa, SP · 30/09/2026 · padrão gráfico das pranchas de elétrica (Tomadas R05)
 
 ## Entregável
-`PRANCHAS PONTOS HIDRAULICOS - RESIDENCIA IC - R01.pdf`: 4 pranchas A2 paisagem (594 × 420 mm). Imprimir sem ajuste de escala.
+`PRANCHAS PONTOS HIDRAULICOS - RESIDENCIA IC - R02.pdf`: 4 pranchas A2 paisagem (594 × 420 mm). Imprimir sem ajuste de escala.
 
 | Prancha | Conteúdo | Escalas |
 |---|---|---|
@@ -12,6 +12,17 @@ Nova Odessa, SP · 30/09/2026 · padrão gráfico das pranchas de elétrica (Tom
 | 04/04 | Piscina Vallauris (iGUi): implantação, esquema dos pontos, planta e cortes do modelo | 1:100 · 1:50 |
 
 Prévias PNG em `fonte/previa/`.
+
+## Revisão R02 (02/10/2026) — decisões do cliente
+- **Bacias Roca ONA com caixa acoplada**: removida a válvula de descarga dos 4 banhos; ponto AF a 0,30 até conferir na ficha da Roca.
+- **Chuveiros**: kit Deca Acqua Plus + misturador de duas alavancas (4900); registros já executados — afastamento a medir em obra.
+- **Lavatórios e Área Gourmet com misturador (AF/AQ)**: sugestões Deca 2875.C26 (Level, bica baixa), 2885.GF90.MT (Unic, bica alta,
+  Dark Antracite, Banho 4) e 2250.C (Flex Plus, gourmet). Cozinha: misturador monocomando (lista de louças).
+- **Lava-louças**: água e esgoto pela face norte da mureta do balcão (1,83 × 0,11 m, DWG Prefeitura), a 1,90 da parede da janela.
+- **A.S.**: L1 e L3 ficam (tanque único I.Corso; uma será vedada depois); L2 = torneira da lava e seca Brastemp; L4 e L5 mantidos.
+- **Ducha da piscina**: 2,10 / 1,10 confirmados. Duas torneiras de jardim mantidas. Banho Suíte Master com 1 cuba.
+- **Nomes dos ambientes conforme a elétrica**: Banho Suíte 1 (B1.x), Banho Suíte 2 (B2.x), Banho Suíte Master (BM.x), Banho 4 (B4.x),
+  A.S. · Área de serviço, Área Gourmet. CAU da Isadora: A263982-8.
 
 ## Escopo
 Prancha de **localização de pontos** (posição em planta + altura do piso acabado). Não é projeto de dimensionamento:
@@ -32,7 +43,7 @@ Cada altura traz a letra da sua fonte: **C** caderno Rev. 02 · **D** definiçã
 
 ## Decisões do cliente (30/09/2026)
 - Base: planta da prancha de Tomadas (mesma arquitetura, sem os símbolos elétricos). Prevalece a planta de pontos de 29/09.
-- Carimbo: "Residência Ivan e Ana Neris"; Isadora Ferrari **CAU A269382-8** (a prancha de Tomadas R05 traz A263982-8: corrigir lá).
+- Carimbo: "Residência Ivan e Ana Neris"; Isadora Ferrari **CAU A263982-8** (confirmado em 02/10; a R01 trazia A269382-8 por engano).
 - Chuveiros com registro misturador; saída identificada como "saída de chuveiro"; AF da bancada do WC Externo a 0,60; secadora elétrica; Gourmet sem outros pontos.
 - Pontos na mesma linha da vista = mesma altura. Cuba da cozinha: AF = AQ (0,50). Gourmet: AF e ESG a 0,50.
 - Geladeira a 3,60 da parede da janela. Gourmet a 1,75 da parede inferior (a "esquerda" na orientação do layout).
@@ -46,7 +57,7 @@ Cada altura traz a letra da sua fonte: **C** caderno Rev. 02 · **D** definiçã
 1. Alturas da ducha da piscina (X1 2,10 · X2 1,10): adotadas do padrão do chuveiro, confirmar.
 2. Registro geral dos banheiros: eixo sem cota (dentro do armário), definir com a marcenaria.
 3. Piscina: conferir implantação (3,63 da fachada / 1,50 do muro), orientação de escada/banco e posições de skimmer, retorno, reposição e grelha com a iGUi.
-4. CAU da Isadora divergente na prancha de Tomadas R05.
+4. Cadernos de piso e de parede (R00) trazem o CAU A269382-8: corrigir para A263982-8.
 5. O caderno anterior (`caderno/`, R02) continua no repositório; estas pranchas não usam as propostas de mercado dele (exceto os valores que o cliente confirmou como padrão).
 
 ## Conferência (`fonte/verificar.py`)
@@ -61,8 +72,8 @@ cd pranchas_pontos/fonte
 npm i                                   # playwright (Chromium já instalado no ambiente)
 python3 vetorizar_base.py "../../referencias/pdfs_originais/CADERNO DETALHAMENTO RESIDENCIA IC - TOMADAS 2.pdf"   # base.json
 python3 pranchas.py                     # pranchas.html
-node imprimir.mjs .. "PRANCHAS PONTOS HIDRAULICOS - RESIDENCIA IC - R01.pdf"
-python3 verificar.py "../PRANCHAS PONTOS HIDRAULICOS - RESIDENCIA IC - R01.pdf"
+node imprimir.mjs .. "PRANCHAS PONTOS HIDRAULICOS - RESIDENCIA IC - R02.pdf"
+python3 verificar.py "../PRANCHAS PONTOS HIDRAULICOS - RESIDENCIA IC - R02.pdf"
 ```
 - `dados_pontos.py`: pontos, cotas, alturas e fontes (editar aqui).
 - `vetorizar_base.py`: remove os símbolos elétricos do raster da planta de Tomadas (abertura morfológica) e vetoriza paredes/janelas;
@@ -73,8 +84,8 @@ python3 verificar.py "../PRANCHAS PONTOS HIDRAULICOS - RESIDENCIA IC - R01.pdf"
 
 ---
 
-# Prancha de Pontos de Gás (GLP) — R01 · 01/10/2026
-`../gas/PRANCHA PONTOS DE GAS - RESIDENCIA IC - R01.pdf` (A2 paisagem, 01/01, mesmo padrão gráfico). Fonte: `fonte/gas.py` → `fonte/gas.html`.
+# Prancha de Pontos de Gás (GLP) — R02 · 02/10/2026 (R01 de 01/10)
+`../gas/PRANCHA PONTOS DE GAS - RESIDENCIA IC - R02.pdf` (A2 paisagem, 01/01, mesmo padrão gráfico). Fonte: `fonte/gas.py` → `fonte/gas.html`.
 
 - **AB · Abrigo de GLP, 2 botijões P13**: no recuo do corredor externo, sob as condensadoras C1 e C2, na projeção de cada uma
   (1,00 × 0,40 m, hachura da prancha de Tomadas R05). Dimensões finais, porta, ventilação e disposição dos botijões a definir.
@@ -88,4 +99,4 @@ python3 verificar.py "../PRANCHAS PONTOS HIDRAULICOS - RESIDENCIA IC - R01.pdf"
   e a ralos; acesso para troca dos botijões; afastamento entre o ponto do fogão e a tomada de acendimento. Posição das condensadoras
   ainda "a confirmar" no caderno de ar condicionado.
 
-Regenerar: `python3 gas.py && HTML=gas.html PREFIXO=gas node imprimir.mjs ../gas "PRANCHA PONTOS DE GAS - RESIDENCIA IC - R01.pdf"`
+Regenerar: `python3 gas.py && HTML=gas.html PREFIXO=gas node imprimir.mjs ../gas "PRANCHA PONTOS DE GAS - RESIDENCIA IC - R02.pdf"`

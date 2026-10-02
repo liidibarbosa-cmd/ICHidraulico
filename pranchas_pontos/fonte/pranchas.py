@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Gera pranchas.html: 4 pranchas A2 paisagem de pontos hidraulicos no padrao da eletrica.
   01/04 Planta geral de pontos (1:100)
-  02/04 Ampliacoes: Cozinha, Gourmet, Lavanderia (1:25)
+  02/04 Ampliacoes: Cozinha, Area Gourmet, A.S. (1:25)
   03/04 Ampliacoes: Banheiros (1:25) + vistas das paredes hidraulicas (1:50)
   04/04 Piscina Vallauris (implantacao 1:100, modelo 1:50, pontos)
 """
@@ -24,14 +24,14 @@ def legenda(s, y1=306.1, planta_geral=True, extra=None):
     painel(s, x0, TOPO, x1, y1, CREME, 'Legenda', '2')
     yy = 78.0; xa, xb = 1263.0, 1459.0
     col = []
-    for t in ('AF', 'AQ', 'ESG', 'VD', 'RG', 'SC'):
+    for t in ('AF', 'AQ', 'ESG', 'RG', 'SC'):
         col.append((lambda s, x, y, t=t: marcador(s, x + 5, y - 3.2, t, 4.6), D.TIPOS[t][1]))
     col2 = []
     if planta_geral:
         col2.append((lambda s, x, y: ponto_simples_leg(s, x + 5, y - 3.2), 'Eixo de ponto (planta geral)'))
     col2 += [
         (lambda s, x, y: marcador(s, x + 5, y - 3.2, 'RG', 4.6, tracejado=True), 'Ponto com eixo sem cota'),
-        (lambda s, x, y: pilula(s, x + 9, y, 'W1.3', 6.4), 'Código do ponto'),
+        (lambda s, x, y: pilula(s, x + 9, y, 'B1.3', 6.4), 'Código do ponto'),
         (lambda s, x, y: selo(s, x + 5, y - 3.2, '4', 5.6, tam=6.6), 'Ampliação (Quadro 1)'),
         (lambda s, x, y: (s.line(x - 2, y - 3.2, x + 22, y - 3.2, stroke=COTA, sw=0.35), s.circle(x - 2, y - 3.2, 1.1, fill=COTA),
                           s.circle(x + 22, y - 3.2, 1.1, fill=COTA), s.text(x + 10, y - 5.4, '1,00', 6.5, 500, COTA_TXT, anc='middle')), 'Cota em metros'),
@@ -62,7 +62,7 @@ def observacoes(s, itens, y0=320.4, y1=912.7, quadro='3', tam=11.2):
 def fontes_quadro(s, x0, y0, x1, y1, quadro, titulo='Fontes das alturas', fundo=CLARO, notas=None):
     c = painel(s, x0, y0, x1, y1, fundo, titulo, quadro)
     y = y0 + 50
-    for k in ('C', 'D', 'P', 'A'):
+    for k in ('C', 'D', 'P'):
         s.circle(x0 + 24, y - 3.8, 7.2, fill=TERRA if fundo != TERRA else CREME)
         s.text(x0 + 24, y - 0.4, k, 9, 700, CREME if fundo != TERRA else TERRA, anc='middle')
         y = paragrafo(s, x0 + 40, y, D.FONTES[k], x1 - x0 - 58, 11, 400, c) + 6
@@ -74,18 +74,18 @@ def fontes_quadro(s, x0, y0, x1, y1, quadro, titulo='Fontes das alturas', fundo=
 
 # ------------------------------------------------------------------ PRANCHA 01
 ROTULOS = [  # (texto, x, y, rot)
-    ('WC SUÍTE', 1.42, 2.55, 0), ('MASTER', 1.42, 2.85, 0), ('SUÍTE MASTER', 8.3, 2.1, 0), ('WC 02', 3.25, 7.55, 0), ('WC 01', 3.25, 9.55, 0),
-    ('WC EXTERNO', 9.35, 6.62, 0), ('COZINHA', 4.6, 14.05, 0), ('GOURMET', 9.0, 9.2, 0), ('LAVANDERIA', 3.3, 18.55, 0),
+    ('BANHO', 1.42, 2.4, 0), ('SUÍTE MASTER', 1.42, 2.7, 0), ('SUÍTE MASTER', 8.3, 2.1, 0), ('BANHO SUÍTE 2', 3.45, 7.55, 0), ('BANHO SUÍTE 1', 3.45, 9.55, 0),
+    ('BANHO 4', 9.35, 6.62, 0), ('COZINHA', 4.6, 14.05, 0), ('ÁREA GOURMET', 9.0, 9.2, 0), ('A.S.', 3.3, 18.55, 0),
     ('CORREDOR EXTERNO', 1.02, 11.5, -90), ('RECUO', 14.2, 16.62, 0), ('SALA', 9.5, 14.2, 0),
 ]
 AMPL = [  # (num, rotulo, (x0,y0,x1,y1) m, prancha, posicao do selo (x,y) m)
     ('1', 'Cozinha', (1.72, 13.42, 6.05, 17.88), '02', (6.05, 13.42)),
-    ('2', 'Gourmet', (7.34, 9.95, 8.05, 11.25), '02', (8.05, 9.95)),
-    ('3', 'Lavanderia', (1.72, 17.88, 4.72, 20.05), '02', (4.72, 17.88)),
-    ('4', 'WC 01', (2.35, 8.67, 5.36, 10.36), '03', (5.36, 10.36)),
-    ('5', 'WC 02', (2.35, 6.98, 5.36, 8.72), '03', (5.36, 6.98)),
-    ('6', 'WC Suíte Master', (0.32, 0.28, 2.5, 3.92), '03', (2.5, 0.28)),
-    ('7', 'WC Externo', (7.34, 6.18, 10.6, 7.84), '03', (10.6, 6.18)),
+    ('2', 'Área Gourmet', (7.34, 9.95, 8.05, 11.25), '02', (8.05, 9.95)),
+    ('3', 'A.S.', (1.72, 17.88, 4.72, 20.05), '02', (4.72, 17.88)),
+    ('4', 'Banho Suíte 1', (2.35, 8.67, 5.36, 10.36), '03', (5.36, 10.36)),
+    ('5', 'Banho Suíte 2', (2.35, 6.98, 5.36, 8.72), '03', (5.36, 6.98)),
+    ('6', 'Banho Suíte Master', (0.32, 0.28, 2.5, 3.92), '03', (2.5, 0.28)),
+    ('7', 'Banho 4', (7.34, 6.18, 10.6, 7.84), '03', (10.6, 6.18)),
 ]
 
 def pontos_ext_planta(s, v):
@@ -157,13 +157,13 @@ def prancha01():
     c = painel(s, x0, TOPO, x1, 530.0, TERRA, 'Pontos por ambiente', '1')
     s.text(838, 74 + 8, 'Nº', 9.5, 700, c); s.text(876, 82, 'AMBIENTE · PONTOS', 9.5, 700, c)
     s.text(1208, 82, 'PRANCHA', 9.5, 700, c, anc='end')
-    linhas = [('1', 'Cozinha', 'C1 a C4 · filtro, cuba, geladeira e lava-louças (ilha)', '02'),
-              ('2', 'Gourmet', 'G1 · cuba · torneira de bancada', '02'),
-              ('3', 'Lavanderia', 'L1 a L5 · torneiras e bancada do tanque, máquina, tanquinho', '02'),
-              ('4', 'WC 01', 'W1.1 a W1.5 · chuveiro, ducha higiênica, bacia, cuba, registro', '03'),
-              ('5', 'WC 02', 'W2.1 a W2.5 · espelhado em relação ao WC 01', '03'),
-              ('6', 'WC Suíte Master', 'WS.1 a WS.5 · chuveiro, ducha higiênica, bacia, cuba, registro', '03'),
-              ('7', 'WC Externo', 'WE.1 a WE.5 · chuveiro, ducha higiênica, bacia, torneira, registro', '03'),
+    linhas = [('1', 'Cozinha', 'C1 a C4 · filtro, cuba, geladeira e lava-louças (mureta)', '02'),
+              ('2', 'Área Gourmet', 'G1 · cuba com misturador', '02'),
+              ('3', 'A.S. · Área de serviço', 'L1 a L5 · torneiras do tanque, lava e seca, máquina, tanquinho', '02'),
+              ('4', 'Banho Suíte 1', 'B1.1 a B1.5 · chuveiro, ducha higiênica, bacia, cuba, registro', '03'),
+              ('5', 'Banho Suíte 2', 'B2.1 a B2.5 · espelhado em relação ao Banho Suíte 1', '03'),
+              ('6', 'Banho Suíte Master', 'BM.1 a BM.5 · chuveiro, ducha higiênica, bacia, cuba, registro', '03'),
+              ('7', 'Banho 4', 'B4.1 a B4.5 · chuveiro, ducha higiênica, bacia, cuba de sobrepor, registro', '03'),
               ('8', 'Piscina', 'Ducha e registro (X1, X2), skimmer, retorno, reposição, ladrão, dreno', '04')]
     y = 108
     for num, amb, desc, pr in linhas:
@@ -184,11 +184,12 @@ def prancha01():
         alt = p['serv'][0][1] + ' m' + ('*' if p['serv'][0][2] == 'A' else '')
         s.text(1208, y, alt, 12, 700, c, anc='end')
         y = paragrafo(s, 876, y + 15, p['eixo_txt'] + '.', 300, 11, 300, c) + 12
-    paragrafo(s, 838, y + 2, '* Ducha de água fria junto à piscina: alturas adotadas do padrão do chuveiro (saída 2,10 · registro 1,10). Confirmar antes da execução.', 370, 10.2, 400, c, entre=13.6)
+    paragrafo(s, 838, y + 2, 'Ducha de água fria junto à piscina (kit chuveirão só água fria): saída 2,10 e registro 1,10, confirmados em 02/10/2026.', 370, 10.2, 400, c, entre=13.6)
 
     fontes_quadro(s, x0, 882.0, x1, BASE, '1B', notas=[
-        'Cada altura nos quadros das pranchas 02 a 04 traz a letra da sua fonte. Posições em planta: Planta Pontos Hidráulicos (29/09/2026), '
-        'que prevalece sobre o caderno nas divergências (decisão de 30/09/2026).'])
+        'Cada altura nos quadros das pranchas 02 a 04 traz a letra da sua fonte. Posições: Planta Pontos Hidráulicos (29/09/2026).',
+        'R02 (02/10/2026): bacias Roca ONA com caixa acoplada (sem válvula de descarga); lavatórios e gourmet com misturador AF/AQ; '
+        'lava-louças na face da mureta; L2 = lava e seca; nomes dos ambientes conforme a elétrica; CAU corrigido.'])
 
     # ---- coluna 3
     legenda(s)
@@ -198,7 +199,7 @@ def prancha01():
         ('Posições', 'Cotas em metros, a partir da face da parede indicada em cada ponto. Os pontos dos ambientes estão cotados nas '
                      'ampliações (pranchas 02 e 03); os externos, nesta prancha.'),
         ('Alturas', 'Do piso acabado ao eixo do ponto. A fonte de cada valor está no Quadro 1B.'),
-        ('Chuveiros', 'Saída de chuveiro com registro misturador (água quente e fria). Sem chuveiro elétrico (Tomadas R05, item 12).'),
+        ('Chuveiros', 'Kit Deca Acqua Plus com misturador de duas alavancas (água quente e fria); registros já executados. Sem chuveiro elétrico.'),
         ('Registro geral', 'Dentro do armário da bancada de cada banheiro, a 0,55 m. Eixo sem cota: definir com a marcenaria.'),
         ('Compatibilização', 'Pontos elétricos conforme a prancha de Tomadas R05. Manter no mínimo 0,30 m entre tomadas e pontos de '
                              'água e esgoto. Conferir as medidas no local antes de fechar as paredes.'),

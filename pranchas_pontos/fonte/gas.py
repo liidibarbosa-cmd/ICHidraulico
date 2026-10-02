@@ -13,7 +13,7 @@ import dados_pontos as D
 import pranchas as PR
 import ampliacoes as AM
 
-DATA = '01/10/2026'
+DATA = '02/10/2026'
 GAS = '#f0b400'
 D.TIPOS['GAS'] = ('G', 'Gás (GLP)', GAS, TINTA)
 D.SIGLA_TXT['GAS'] = 'Gás'
@@ -95,8 +95,8 @@ def prancha_gas():
     desenhar_base(s, v)
     abrigo(s, v, rotulos=False, botijoes=False)
     marcador(s, v.X(FOGAO['x']), v.Y(FOGAO['y']) + 6, 'GAS', 3.8)
-    for t, x, y, rot in (('CORREDOR EXTERNO', 1.02, 12.6, -90), ('COZINHA', 3.9, 15.3, 0), ('WC 02', 3.6, 7.6, 0), ('WC 01', 3.6, 9.6, 0),
-                         ('LAVANDERIA', 3.2, 18.8, 0), ('SALA', 9.3, 14.5, 0)):
+    for t, x, y, rot in (('CORREDOR EXTERNO', 1.02, 12.6, -90), ('COZINHA', 3.9, 15.3, 0), ('BANHO SUÍTE 2', 3.7, 7.6, 0), ('BANHO SUÍTE 1', 3.7, 9.6, 0),
+                         ('A.S.', 3.2, 18.8, 0), ('SALA', 9.3, 14.5, 0)):
         s.text(v.X(x), v.Y(y), t, 6.6, 600, COTA_TXT, anc='middle', ls=0.9, rot=rot or None)
     for num, (a, b, c, d) in (('2', (1.6, 6.9, 2.5, 10.4)), ('3', (1.72, 13.42, 4.8, 14.3))):
         s.rect(v.X(a), v.Y(b), (c - a) * v.k, (d - b) * v.k, stroke=TERRA, sw=0.6, rx=4, extra='stroke-dasharray="3 1.6"')
@@ -111,8 +111,8 @@ def prancha_gas():
     abrigo(s, va)
     tomadas_ref(s, va)
     s.text(va.X(1.0), va.Y(8.65), 'CORREDOR EXTERNO', 7.4, 600, COTA_TXT, anc='middle', ls=1, rot=-90)
-    s.text(va.X(2.62), va.Y(7.9), 'WC 02', 7.4, 700, COTA_TXT, anc='middle', rot=-90)
-    s.text(va.X(2.62), va.Y(9.6), 'WC 01', 7.4, 700, COTA_TXT, anc='middle', rot=-90)
+    s.text(va.X(2.62), va.Y(7.9), 'BANHO SUÍTE 2', 7.4, 700, COTA_TXT, anc='middle', rot=-90)
+    s.text(va.X(2.62), va.Y(9.6), 'BANHO SUÍTE 1', 7.4, 700, COTA_TXT, anc='middle', rot=-90)
     for nome, (x0, y0, x1, y1) in COND.items():
         cota(s, va, dict(eixo='y', de=y0, ate=y1, txt='1,00*'), 1.45, tam=7.6, ext_de=x0, ext_ate=x0)
     x0, y0, x1, y1 = COND['C1']
@@ -189,7 +189,7 @@ def prancha_gas():
     for tit, txt in (('Condensadoras', 'C1 e C2 (Gree G-Max multisplit 48.000 BTU/h) acima do abrigo. Altura de instalação e suporte '
                                       'a definir; localização ainda A CONFIRMAR no caderno de ar condicionado.'),
                      ('Tomadas C', 'Pontos de força das condensadoras a 1,50 m, entre C1 e C2 (Tomadas R05, item 10).'),
-                     ('Janelas', 'As janelas do WC 01 e do WC 02 ficam atrás das condensadoras.'),
+                     ('Janelas', 'As janelas J04 (peitoril 1,50) dos Banhos Suíte 1 e Suíte 2 ficam atrás das condensadoras.'),
                      ('Fogão', 'Tomada de acendimento a 0,30 e tomada da coifa a 2,065 no mesmo eixo do ponto de gás '
                                '(Tomadas R05, itens 13.1 e 13.7).')):
         s.text(838, y, tit, 11, 700, c)
