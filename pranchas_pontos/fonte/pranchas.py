@@ -189,7 +189,7 @@ def prancha01():
     fontes_quadro(s, x0, 882.0, x1, BASE, '1B', notas=[
         'Cada altura nos quadros das pranchas 02 a 04 traz a letra da sua fonte. Posições: Planta Pontos Hidráulicos (29/09/2026).',
         'R02 (02/10/2026): bacias Roca ONA com caixa acoplada (sem válvula de descarga); lavatórios e gourmet com misturador AF/AQ; '
-        'lava-louças na face da mureta; L2 = lava e seca; nomes dos ambientes conforme a elétrica; CAU corrigido.'])
+        'lava-louças na face da mureta; nomes dos ambientes conforme a elétrica; CAU corrigido. R03 (02/10/2026): ponto L2 da A.S. eliminado.'])
 
     # ---- coluna 3
     legenda(s)

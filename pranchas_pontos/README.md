@@ -1,8 +1,8 @@
-# Pranchas de Pontos Hidráulicos — Residência Ivan e Ana Neris — R02 (02/10/2026)
+# Pranchas de Pontos Hidráulicos — Residência Ivan e Ana Neris — R03 (02/10/2026)
 Nova Odessa, SP · 30/09/2026 · padrão gráfico das pranchas de elétrica (Tomadas R05)
 
 ## Entregável
-`PRANCHAS PONTOS HIDRAULICOS - RESIDENCIA IC - R02.pdf`: 4 pranchas A2 paisagem (594 × 420 mm). Imprimir sem ajuste de escala.
+`PRANCHAS PONTOS HIDRAULICOS - RESIDENCIA IC - R03.pdf`: 4 pranchas A2 paisagem (594 × 420 mm). Imprimir sem ajuste de escala.
 
 | Prancha | Conteúdo | Escalas |
 |---|---|---|
@@ -13,13 +13,17 @@ Nova Odessa, SP · 30/09/2026 · padrão gráfico das pranchas de elétrica (Tom
 
 Prévias PNG em `fonte/previa/`.
 
+## Revisão R03 (02/10/2026)
+- **A.S.: ponto L2 (0,64 da parede esquerda, AF 1,00 + ESG 0,50) eliminado** a pedido do cliente. Ficam L1, L3, L4 e L5
+  (códigos mantidos para não confundir com a obra).
+
 ## Revisão R02 (02/10/2026) — decisões do cliente
 - **Bacias Roca ONA com caixa acoplada**: removida a válvula de descarga dos 4 banhos; ponto AF a 0,30 até conferir na ficha da Roca.
 - **Chuveiros**: kit Deca Acqua Plus + misturador de duas alavancas (4900); registros já executados — afastamento a medir em obra.
 - **Lavatórios e Área Gourmet com misturador (AF/AQ)**: sugestões Deca 2875.C26 (Level, bica baixa), 2885.GF90.MT (Unic, bica alta,
   Dark Antracite, Banho 4) e 2250.C (Flex Plus, gourmet). Cozinha: misturador monocomando (lista de louças).
 - **Lava-louças**: água e esgoto pela face norte da mureta do balcão (1,83 × 0,11 m, DWG Prefeitura), a 1,90 da parede da janela.
-- **A.S.**: L1 e L3 ficam (tanque único I.Corso; uma será vedada depois); L2 = torneira da lava e seca Brastemp; L4 e L5 mantidos.
+- **A.S.**: L1 e L3 ficam (tanque único I.Corso; uma será vedada depois); L2 = torneira da lava e seca Brastemp (eliminado na R03); L4 e L5 mantidos.
 - **Ducha da piscina**: 2,10 / 1,10 confirmados. Duas torneiras de jardim mantidas. Banho Suíte Master com 1 cuba.
 - **Nomes dos ambientes conforme a elétrica**: Banho Suíte 1 (B1.x), Banho Suíte 2 (B2.x), Banho Suíte Master (BM.x), Banho 4 (B4.x),
   A.S. · Área de serviço, Área Gourmet. CAU da Isadora: A263982-8.
@@ -72,8 +76,8 @@ cd pranchas_pontos/fonte
 npm i                                   # playwright (Chromium já instalado no ambiente)
 python3 vetorizar_base.py "../../referencias/pdfs_originais/CADERNO DETALHAMENTO RESIDENCIA IC - TOMADAS 2.pdf"   # base.json
 python3 pranchas.py                     # pranchas.html
-node imprimir.mjs .. "PRANCHAS PONTOS HIDRAULICOS - RESIDENCIA IC - R02.pdf"
-python3 verificar.py "../PRANCHAS PONTOS HIDRAULICOS - RESIDENCIA IC - R02.pdf"
+node imprimir.mjs .. "PRANCHAS PONTOS HIDRAULICOS - RESIDENCIA IC - R03.pdf"
+python3 verificar.py "../PRANCHAS PONTOS HIDRAULICOS - RESIDENCIA IC - R03.pdf"
 ```
 - `dados_pontos.py`: pontos, cotas, alturas e fontes (editar aqui).
 - `vetorizar_base.py`: remove os símbolos elétricos do raster da planta de Tomadas (abertura morfológica) e vetoriza paredes/janelas;

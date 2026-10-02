@@ -216,7 +216,7 @@ def prancha_gas():
         ('Normas', 'NBR 15526 (redes de distribuição interna de gases combustíveis), NBR 13523 (central de GLP) e '
                    'IT 28 do Corpo de Bombeiros do Estado de São Paulo.'),
     ])
-    carimbo(s, PR.LOGO, 'Pontos de gás (GLP)', '1:100 e 1:25 · folha A2', '01/01', D.REV, DATA, (113.386 / 2, 2, '0 — 2 m (1:25)'),
+    carimbo(s, PR.LOGO, 'Pontos de gás (GLP)', '1:100 e 1:25 · folha A2', '01/01', 'R02', DATA, (113.386 / 2, 2, '0 — 2 m (1:25)'),
             projeto=D.PROJETO, endereco=D.ENDERECO, resp=D.RESP)
     return s.svg()
 

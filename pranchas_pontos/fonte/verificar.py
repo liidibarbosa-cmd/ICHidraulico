@@ -50,7 +50,7 @@ cad = fitz.open(os.path.join(REF, 'CADERNO DETALHAMENTO RESIDENCIA IC - HIDRAULI
 txt = ' '.join(p.get_text() for p in cad)
 esperado = {  # (codigo -> [(tipo, altura)]) conforme quadro de pontos do caderno
     'C1': [('AF', '1,00')], 'C2': [('AQ', '0,50'), ('ESG', '0,35')], 'C3': [('AF', '1,25')], 'C4': [('AF', '0,60')],
-    'G1': [('AQ', '0,50')], 'L2': [('AF', '1,00')], 'L4': [('AF', '0,70')], 'L5': [('AF', '0,70')],
+    'G1': [('AQ', '0,50')], 'L4': [('AF', '0,70')], 'L5': [('AF', '0,70')],
 }
 for pref in ('B1.', 'B2.', 'BM.', 'B4.'):
     esperado[pref + '1'] = [('SC', '2,10'), ('AF', '1,10'), ('AQ', '1,10')]
@@ -84,7 +84,7 @@ for k in D.ORDEM:
         for c in p['cotas']:
             if c['txt'] not in t: print('   ERRO: cota %s de %s ausente' % (c['txt'], p['cod'])); e4 += 1
 for i, t in enumerate(pag):
-    for obrig in ('Residência Ivan e Ana Neris', 'A263982-8', 'A290220-6', '%02d/04' % (i + 1), 'R02', '02/10/2026'):
+    for obrig in ('Residência Ivan e Ana Neris', 'A263982-8', 'A290220-6', '%02d/04' % (i + 1), D.REV, '02/10/2026'):
         if obrig.replace(' ', '') not in t.replace(' ', '').replace('\xa0', ''):
             print('   ERRO: "%s" ausente no carimbo da prancha %d' % (obrig, i + 1)); e4 += 1
 print('4. códigos, cotas e carimbos presentes no PDF: ok' if not e4 else '4. ERROS: %d' % e4)

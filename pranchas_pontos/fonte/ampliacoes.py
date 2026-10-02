@@ -162,10 +162,10 @@ def prancha02():
     s.text(vg.X(8.0), vg.Y(9.0), 'área gourmet', 7, 500, COTA_TXT, anc='middle')
     # Lavanderia 1:25
     vl = Vista(40, 728, 25, 1.55, 17.80, clip=(1.55, 17.80, 4.90, 21.10))
-    titulo_vista(s, 40, 698, '3', 'A.S. · Área de serviço', 'Escala 1:25 · pontos L1 a L5')
+    titulo_vista(s, 40, 698, '3', 'A.S. · Área de serviço', 'Escala 1:25 · pontos L1, L3, L4 e L5')
     ampliacao(s, vl, D.AMB['LAV']['pontos'],
-              cotas_cfg=[('L1', 0, 20.28, 19.95, None, 1), ('L2', 0, 20.48, 20.28, None, 1), ('L3', 0, 20.68, 20.48, None, 1),
-                         ('L4', 0, 20.88, 20.68, None, 1), ('L5', 0, 20.28, 19.95, None, 1)])
+              cotas_cfg=[('L1', 0, 20.28, 19.95, None, 1), ('L3', 0, 20.48, 20.28, None, 1),
+                         ('L4', 0, 20.68, 20.48, None, 1), ('L5', 0, 20.28, 19.95, None, 1)])
     marca_vista(s, vl, 3.25, 18.25, 'inf', 'V1')
     comp = F['LAV_dir'] - F['LAV_esq']
     pts_s = [(F['LAV_dir'] - p['x'], p) for p in D.AMB['LAV']['pontos']]
@@ -177,7 +177,7 @@ def prancha02():
     quadro_pontos(s, COL2[0], TOPO, COL2[1], 706.0, [
         ('Cozinha', ['C1', 'C2', 'C3', 'C4'], None),
         ('Área Gourmet', ['G1'], None),
-        ('A.S. · Área de serviço', ['L1', 'L2', 'L3', 'L4', 'L5'], None)], titulo='Pontos e alturas')
+        ('A.S. · Área de serviço', ['L1', 'L3', 'L4', 'L5'], None)], titulo='Pontos e alturas')
     quadro_revisoes(s, COL2[0], 720.0, COL2[1], BASE, [
         ('Cozinha', D.REVISOES['COZ']), ('A.S.', D.REVISOES['LAV'])])
     # coluna 3
@@ -188,7 +188,7 @@ def prancha02():
         ('Lava-louças', 'Tomada da face do balcão afastada no mínimo 0,30 m dos pontos de água e esgoto (Tomadas R05, item 13.5).'),
         ('Área Gourmet', 'Cuba a 1,75 da parede inferior; fecha com os 2,80 até a parede superior do caderno. Misturador Deca Flex Plus (AF/AQ).'),
         ('A.S.', 'Posições conforme a planta de 29/09. Tanque único I.Corso: L1 e L3 ficam por ora; uma será vedada depois. '
-                 'L2 = torneira da lava e seca Brastemp. Tanquinho cotado pela parede direita.'),
+                 'Ponto L2 (0,64) eliminado na R03. Tanquinho cotado pela parede direita.'),
         ('Alturas', 'Do piso acabado ao eixo. A letra ao lado de cada altura indica a fonte (Quadro 1B da prancha 01).'),
         ('Escopo', 'Localização de pontos. Diâmetros, trajetos e declividades: projeto hidrossanitário.'),
     ])

@@ -16,7 +16,7 @@ ALTURAS (a partir do piso acabado), com a fonte de cada valor:
   A = Adotado a partir do padrao do chuveiro (saida 2,10 / registro 1,10) - CONFIRMAR
 """
 
-REV = 'R02'
+REV = 'R03'
 DATA = '02/10/2026'
 PROJETO = 'Residência Ivan e Ana Neris'
 ENDERECO = 'Nova Odessa – SP'
@@ -114,13 +114,10 @@ L = F['LAV_esq']
 AMB['LAV'] = dict(nome='A.S. · Área de serviço', sigla='LAV', pontos=[
     P('L1', 'Torneira de parede · tanque', L + 0.35, F['LAV_inf'], 'inf',
       [('AF', '1,00', 'P')], [cota('x', L, L + 0.35, '0,35', 'parede esquerda')], '0,35 da parede esquerda',
-      nota='Tanque único I.Corso: uma das duas torneiras (L1 ou L3) será vedada depois.'),
-    P('L2', 'Torneira · lava e seca Brastemp', L + 0.64, F['LAV_inf'], 'inf',
-      [('AF', '1,00', 'C'), ('ESG', '0,50', 'P')], [cota('x', L, L + 0.64, '0,64', 'parede esquerda')],
-      '0,64 da parede esquerda (meio das torneiras)', nota='Ponto da lava e seca Brastemp (02/10); eixo no meio das torneiras (30/09).'),
+      nota='Tanque único I.Corso: uma das duas torneiras (L1 ou L3) será vedada depois. Ponto L2 eliminado (R03, 02/10).'),
     P('L3', 'Torneira de parede · tanque', L + 0.93, F['LAV_inf'], 'inf',
       [('AF', '1,00', 'P')], [cota('x', L, L + 0.93, '0,93', 'parede esquerda')], '0,93 da parede esquerda',
-      nota='Tanque único I.Corso: uma das duas torneiras (L1 ou L3) será vedada depois.'),
+      nota='Tanque único I.Corso: uma das duas torneiras (L1 ou L3) será vedada depois. Ponto L2 eliminado (R03, 02/10).'),
     P('L4', 'Máquina de lavar roupas', L + 1.70, F['LAV_inf'], 'inf',
       [('AF', '0,70', 'C'), ('ESG', '0,60', 'P')], [cota('x', L, L + 1.70, '1,70', 'parede esquerda')], '1,70 da parede esquerda'),
     P('L5', 'Tanquinho', F['LAV_dir'] - 0.31, F['LAV_inf'], 'inf',
