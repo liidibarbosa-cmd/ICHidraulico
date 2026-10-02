@@ -15,6 +15,8 @@ def ampliacao(s, v, pontos, pilulas=None, cotas_cfg=(), nomes=None, tam_pil=6.8)
     cotas_cfg: lista de (cod, i_cota, desloc_m, ext_de_m, ext_ate_m, lado_txt).
     nomes: {cod: (tx_m, ty_m, anc)} para etiqueta completa (peca + alturas)."""
     desenhar_base(s, v)
+    for p in pontos:
+        if p.get('ralo'): desenhar_ralo(s, v, p['ralo'])
     for cod, i, desloc, e1, e2, lado in cotas_cfg:
         p = PT[cod]; c = p['cotas'][i]
         if e2 is None: e2 = p['y'] if c['eixo'] == 'x' else p['x']
@@ -30,6 +32,17 @@ def ampliacao(s, v, pontos, pilulas=None, cotas_cfg=(), nomes=None, tam_pil=6.8)
         px, py = ex + nx * 8 + dx, ey + ny * 8 + dy
         if dx or dy: s.line(ex, ey, px - (nx * 3), py - ny * 3, stroke=TINTA, sw=0.3)
         pilula(s, px, py + 2.4, p['cod'], tam_pil)
+
+def desenhar_ralo(s, v, r):
+    x0, y0, x1, y1 = r
+    s.rect(v.X(x0), v.Y(y0), (x1 - x0) * v.k, (y1 - y0) * v.k, fill='#ffffff', stroke=TINTA, sw=0.5 if v.k > 50 else 0.35)
+    if v.k < 50: return
+    if (x1 - x0) < (y1 - y0):
+        yy = v.Y(y0) + 1.6
+        while yy < v.Y(y1) - 1: s.line(v.X(x0) + 1, yy, v.X(x1) - 1, yy, stroke=TINTA, sw=0.25); yy += 2.4
+    else:
+        xx = v.X(x0) + 1.6
+        while xx < v.X(x1) - 1: s.line(xx, v.Y(y0) + 1, xx, v.Y(y1) - 1, stroke=TINTA, sw=0.25); xx += 2.4
 
 def titulo_vista(s, x, y, num, titulo, sub):
     s.circle(x + 10, y - 5, 10, fill=TERRA)
@@ -162,10 +175,10 @@ def prancha02():
     s.text(vg.X(8.0), vg.Y(9.0), 'área gourmet', 7, 500, COTA_TXT, anc='middle')
     # Lavanderia 1:25
     vl = Vista(40, 728, 25, 1.55, 17.80, clip=(1.55, 17.80, 4.90, 21.10))
-    titulo_vista(s, 40, 698, '3', 'A.S. · Área de serviço', 'Escala 1:25 · pontos L1, L3, L4 e L5')
+    titulo_vista(s, 40, 698, '3', 'A.S. · Área de serviço', 'Escala 1:25 · pontos L1 a L5')
     ampliacao(s, vl, D.AMB['LAV']['pontos'],
-              cotas_cfg=[('L1', 0, 20.28, 19.95, None, 1), ('L3', 0, 20.48, 20.28, None, 1),
-                         ('L4', 0, 20.68, 20.48, None, 1), ('L5', 0, 20.28, 19.95, None, 1)])
+              cotas_cfg=[('L1', 0, 20.28, 19.95, None, 1), ('L2', 0, 20.48, 20.28, None, 1), ('L3', 0, 20.68, 20.48, None, 1),
+                         ('L4', 0, 20.88, 20.68, None, 1), ('L5', 0, 20.28, 19.95, None, 1)])
     marca_vista(s, vl, 3.25, 18.25, 'inf', 'V1')
     comp = F['LAV_dir'] - F['LAV_esq']
     pts_s = [(F['LAV_dir'] - p['x'], p) for p in D.AMB['LAV']['pontos']]
@@ -177,7 +190,7 @@ def prancha02():
     quadro_pontos(s, COL2[0], TOPO, COL2[1], 706.0, [
         ('Cozinha', ['C1', 'C2', 'C3', 'C4'], None),
         ('Área Gourmet', ['G1'], None),
-        ('A.S. · Área de serviço', ['L1', 'L3', 'L4', 'L5'], None)], titulo='Pontos e alturas')
+        ('A.S. · Área de serviço', ['L1', 'L2', 'L3', 'L4', 'L5'], None)], titulo='Pontos e alturas')
     quadro_revisoes(s, COL2[0], 720.0, COL2[1], BASE, [
         ('Cozinha', D.REVISOES['COZ']), ('A.S.', D.REVISOES['LAV'])])
     # coluna 3
@@ -188,7 +201,7 @@ def prancha02():
         ('Lava-louças', 'Tomada da face do balcão afastada no mínimo 0,30 m dos pontos de água e esgoto (Tomadas R05, item 13.5).'),
         ('Área Gourmet', 'Cuba a 1,75 da parede inferior; fecha com os 2,80 até a parede superior do caderno. Misturador Deca Flex Plus (AF/AQ).'),
         ('A.S.', 'Posições conforme a planta de 29/09. Tanque único I.Corso: L1 e L3 ficam por ora; uma será vedada depois. '
-                 'Ponto L2 (0,64) eliminado na R03. Tanquinho cotado pela parede direita.'),
+                 'L2 só com o esgoto do tanque (R04; a água fria saiu na R03). Tanquinho cotado pela parede direita.'),
         ('Alturas', 'Do piso acabado ao eixo. A letra ao lado de cada altura indica a fonte (Quadro 1B da prancha 01).'),
         ('Escopo', 'Localização de pontos. Diâmetros, trajetos e declividades: projeto hidrossanitário.'),
     ])
@@ -200,14 +213,14 @@ def prancha03():
     s = Svg(); moldura(s)
     # WC Suite Master
     vm = Vista(40, 88, 25, 0.20, 0.18, clip=(0.20, 0.18, 2.62, 4.02))
-    titulo_vista(s, 40, 58, '6', 'Banho Suíte Master', 'Escala 1:25 · pontos BM.1 a BM.5')
+    titulo_vista(s, 40, 58, '6', 'Banho Suíte Master', 'Escala 1:25 · pontos BM.1 a BM.6')
     ampliacao(s, vm, D.AMB['WSM']['pontos'],
               cotas_cfg=[('BM.2', 0, 1.32, None, None, 1), ('BM.3', 0, 1.58, None, None, 1), ('BM.4', 0, 1.84, None, None, 1),
                          ('BM.1', 0, 1.32, None, None, 1)])
     marca_vista(s, vm, 2.05, 2.75, 'esq', 'V2')
     # WC 02 + WC 01
     vw = Vista(350, 88, 25, 2.25, 6.95, clip=(2.25, 6.95, 5.45, 10.42))
-    titulo_vista(s, 350, 58, '4', 'Banhos Suíte 1 e Suíte 2', 'Escala 1:25 · pontos B1.1 a B1.5 e B2.1 a B2.5 (espelhado)')
+    titulo_vista(s, 350, 58, '4', 'Banhos Suíte 1 e Suíte 2', 'Escala 1:25 · pontos B1.1 a B1.6 e B2.1 a B2.6 (espelhado)')
     ptsw = D.AMB['W01']['pontos'] + D.AMB['W02']['pontos']
     ampliacao(s, vw, ptsw,
               cotas_cfg=[('B1.1', 0, 9.72, None, None, 1), ('B1.4', 0, 9.72, None, None, 1), ('B1.3', 0, 9.92, None, None, 1),
@@ -219,7 +232,7 @@ def prancha03():
     marca_vista(s, vw, 5.0, 9.45, 'sup', 'V3'); marca_vista(s, vw, 5.0, 7.95, 'inf', 'V4')
     # WC Externo
     ve = Vista(40, 600, 25, 7.25, 6.12, clip=(7.25, 6.12, 10.70, 7.92))
-    titulo_vista(s, 40, 570, '7', 'Banho 4', 'Escala 1:25 · pontos B4.1 a B4.5')
+    titulo_vista(s, 40, 570, '7', 'Banho 4', 'Escala 1:25 · pontos B4.1 a B4.6')
     ampliacao(s, ve, D.AMB['WEX']['pontos'],
               cotas_cfg=[('B4.2', 0, 6.42, None, None, 1), ('B4.3', 0, 6.62, None, None, 1),
                          ('B4.1', 0, 6.82, None, None, 1), ('B4.4', 0, 6.82, None, None, 1)])
@@ -227,7 +240,7 @@ def prancha03():
     # vistas 1:50
     def vw_(n, tit, ox, oy, amb, sfun, comp, e, d):
         titulo_vista(s, ox - 20, oy - 2.4 * 56.69 - 28, n, tit, 'Escala 1:50 · do interior · alturas do piso acabado')
-        vista(s, ox, oy, 50, comp, [(sfun(p), p) for p in D.AMB[amb]['pontos']], esq_txt=e, dir_txt=d)
+        vista(s, ox, oy, 50, comp, [(sfun(p), p) for p in D.AMB[amb]['pontos'] if not p.get('ralo')], esq_txt=e, dir_txt=d)
     vw_('V2', 'Banho Suíte Master', 530, 800, 'WSM', lambda p: F['WSM_inf'] - p['y'], F['WSM_inf'] - F['WSM_sup'], 'parede inferior', 'parede superior')
     vw_('V3', 'Banho Suíte 1', 70, 1048, 'W01', lambda p: p['x'] - F['W01_esq'], F['W01_dir'] - F['W01_esq'], 'esquerda', 'direita')
     vw_('V4', 'Banho Suíte 2', 330, 1048, 'W02', lambda p: F['W02_dir'] - p['x'], F['W02_dir'] - F['W02_esq'], 'direita', 'esquerda')
@@ -236,10 +249,10 @@ def prancha03():
     barra_escala(s, 29, 1134.4, vm.k, [0, 0.5, 1, 1.5, 2])
     # coluna 2
     quadro_pontos(s, COL2[0], TOPO, COL2[1], BASE, [
-        ('Banho Suíte 1', ['B1.1', 'B1.2', 'B1.3', 'B1.4', 'B1.5'], None),
-        ('Banho Suíte 2 (espelhado)', ['B2.1', 'B2.2', 'B2.3', 'B2.4', 'B2.5'], None),
-        ('Banho Suíte Master', ['BM.1', 'BM.2', 'BM.3', 'BM.4', 'BM.5'], None),
-        ('Banho 4', ['B4.1', 'B4.2', 'B4.3', 'B4.4', 'B4.5'], None)], titulo='Pontos e alturas', entre=40.6)
+        ('Banho Suíte 1', ['B1.1', 'B1.2', 'B1.3', 'B1.4', 'B1.5', 'B1.6'], None),
+        ('Banho Suíte 2 (espelhado)', ['B2.1', 'B2.2', 'B2.3', 'B2.4', 'B2.5', 'B2.6'], None),
+        ('Banho Suíte Master', ['BM.1', 'BM.2', 'BM.3', 'BM.4', 'BM.5', 'BM.6'], None),
+        ('Banho 4', ['B4.1', 'B4.2', 'B4.3', 'B4.4', 'B4.5', 'B4.6'], None)], titulo='Pontos e alturas', entre=39.4)
     # coluna 3
     PR.legenda(s, planta_geral=False)
     PR.observacoes(s, [

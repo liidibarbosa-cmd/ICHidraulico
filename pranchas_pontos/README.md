@@ -1,8 +1,8 @@
-# Pranchas de Pontos Hidráulicos — Residência Ivan e Ana Neris — R03 (02/10/2026)
+# Pranchas de Pontos Hidráulicos — Residência Ivan e Ana Neris — R04 (02/10/2026)
 Nova Odessa, SP · 30/09/2026 · padrão gráfico das pranchas de elétrica (Tomadas R05)
 
 ## Entregável
-`PRANCHAS PONTOS HIDRAULICOS - RESIDENCIA IC - R03.pdf`: 4 pranchas A2 paisagem (594 × 420 mm). Imprimir sem ajuste de escala.
+`PRANCHAS PONTOS HIDRAULICOS - RESIDENCIA IC - R04.pdf`: 4 pranchas A2 paisagem (594 × 420 mm). Imprimir sem ajuste de escala.
 
 | Prancha | Conteúdo | Escalas |
 |---|---|---|
@@ -12,6 +12,13 @@ Nova Odessa, SP · 30/09/2026 · padrão gráfico das pranchas de elétrica (Tom
 | 04/04 | Piscina Vallauris (iGUi): implantação, esquema dos pontos, planta e cortes do modelo | 1:100 · 1:50 |
 
 Prévias PNG em `fonte/previa/`.
+
+## Revisão R04 (02/10/2026) — esgoto
+- **L2 volta só com o esgoto do tanque** (ESG 0,50 P, eixo 0,64 = centro do tanque). No caderno Hidráulica Rev. 02 o ponto 5 era
+  "A.F. + ESG da bancada do tanque"; ao eliminar o L2 inteiro na R03 o tanque ficou sem esgoto. A água fria do L2 continua eliminada.
+- **Ralos lineares dos boxes**: B1.6, B2.6, BM.6, B4.6 (ESG no piso, fonte D), junto à parede do fundo do box. Retângulo indicativo;
+  modelo, comprimento e caimento a definir. Não há ralo fora do box.
+- Não incluídos (não pedidos): ralo de piso na A.S. e na Área Gourmet; drenos de condensado das evaporadoras E1–E6.
 
 ## Revisão R03 (02/10/2026)
 - **A.S.: ponto L2 (0,64 da parede esquerda, AF 1,00 + ESG 0,50) eliminado** a pedido do cliente. Ficam L1, L3, L4 e L5
@@ -76,8 +83,8 @@ cd pranchas_pontos/fonte
 npm i                                   # playwright (Chromium já instalado no ambiente)
 python3 vetorizar_base.py "../../referencias/pdfs_originais/CADERNO DETALHAMENTO RESIDENCIA IC - TOMADAS 2.pdf"   # base.json
 python3 pranchas.py                     # pranchas.html
-node imprimir.mjs .. "PRANCHAS PONTOS HIDRAULICOS - RESIDENCIA IC - R03.pdf"
-python3 verificar.py "../PRANCHAS PONTOS HIDRAULICOS - RESIDENCIA IC - R03.pdf"
+node imprimir.mjs .. "PRANCHAS PONTOS HIDRAULICOS - RESIDENCIA IC - R04.pdf"
+python3 verificar.py "../PRANCHAS PONTOS HIDRAULICOS - RESIDENCIA IC - R04.pdf"
 ```
 - `dados_pontos.py`: pontos, cotas, alturas e fontes (editar aqui).
 - `vetorizar_base.py`: remove os símbolos elétricos do raster da planta de Tomadas (abertura morfológica) e vetoriza paredes/janelas;

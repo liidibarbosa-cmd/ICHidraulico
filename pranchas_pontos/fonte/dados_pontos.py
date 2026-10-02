@@ -16,7 +16,7 @@ ALTURAS (a partir do piso acabado), com a fonte de cada valor:
   A = Adotado a partir do padrao do chuveiro (saida 2,10 / registro 1,10) - CONFIRMAR
 """
 
-REV = 'R03'
+REV = 'R04'
 DATA = '02/10/2026'
 PROJETO = 'Residência Ivan e Ana Neris'
 ENDERECO = 'Nova Odessa – SP'
@@ -59,11 +59,11 @@ F = dict(
 def cota(eixo, de, ate, txt, ref):
     return dict(eixo=eixo, de=de, ate=ate, txt=txt, ref=ref)
 
-def P(cod, peca, x, y, parede, serv, cotas, eixo_txt, nota=None, esquematico=False):
+def P(cod, peca, x, y, parede, serv, cotas, eixo_txt, nota=None, esquematico=False, ralo=None):
     """parede: lado da parede em que o ponto esta ('esq','dir','sup','inf') visto de dentro
     do ambiente, ou None (ponto fora de parede, ex. ilha)."""
     return dict(cod=cod, peca=peca, x=round(x, 4), y=round(y, 4), parede=parede, serv=serv,
-                cotas=cotas, eixo_txt=eixo_txt, nota=nota, esquematico=esquematico)
+                cotas=cotas, eixo_txt=eixo_txt, nota=nota, esquematico=esquematico, ralo=ralo)
 
 # servicos padrao dos banheiros
 def chuveiro(): return [('SC', '2,10', 'C'), ('AF', '1,10', 'C'), ('AQ', '1,10', 'C')]
@@ -115,6 +115,10 @@ AMB['LAV'] = dict(nome='A.S. · Área de serviço', sigla='LAV', pontos=[
     P('L1', 'Torneira de parede · tanque', L + 0.35, F['LAV_inf'], 'inf',
       [('AF', '1,00', 'P')], [cota('x', L, L + 0.35, '0,35', 'parede esquerda')], '0,35 da parede esquerda',
       nota='Tanque único I.Corso: uma das duas torneiras (L1 ou L3) será vedada depois. Ponto L2 eliminado (R03, 02/10).'),
+    P('L2', 'Esgoto do tanque', L + 0.64, F['LAV_inf'], 'inf',
+      [('ESG', '0,50', 'P')], [cota('x', L, L + 0.64, '0,64', 'parede esquerda')],
+      '0,64 da parede esquerda (centro do tanque, meio das torneiras)',
+      nota='R04: só o esgoto do tanque I.Corso (escolha do cliente em 02/10). A água fria do L2 continua eliminada (R03).'),
     P('L3', 'Torneira de parede · tanque', L + 0.93, F['LAV_inf'], 'inf',
       [('AF', '1,00', 'P')], [cota('x', L, L + 0.93, '0,93', 'parede esquerda')], '0,93 da parede esquerda',
       nota='Tanque único I.Corso: uma das duas torneiras (L1 ou L3) será vedada depois. Ponto L2 eliminado (R03, 02/10).'),
@@ -149,6 +153,20 @@ def _fix(amb):
         for c in p['cotas']: c['txt'] = c['txt'].replace('.', ',')
         p['eixo_txt'] = p['eixo_txt'].replace('.', ',')
     return amb
+
+# ralos lineares dos boxes (definicao do cliente, 02/10/2026): junto a parede do fundo do box; nao ha ralo
+# fora do box. Retangulo indicativo (0,05 da face, 0,07 de largura); modelo, comprimento e caimento A DEFINIR.
+NOTA_RALO = 'Ralo linear junto à parede do fundo do box (02/10). Não há ralo fora do box. Modelo, comprimento e caimento a definir.'
+def ralo(pref, box, fundo):
+    x0, y0, x1, y1 = box
+    if fundo == 'esq':
+        r = (x0 + 0.05, y0 + 0.05, x0 + 0.12, y1 - 0.05); x, y = x0, (y0 + y1) / 2
+    else:
+        r = (x0 + 0.05, y1 - 0.12, x1 - 0.05, y1 - 0.05); x, y = (x0 + x1) / 2, y1
+    return P(pref + '6', 'Ralo linear do box', x, y, fundo, [('ESG', 'piso', 'D')], [],
+             'junto à parede do fundo do box · comprimento a definir', nota=NOTA_RALO, ralo=r)
+BOX = {'W01': (2.445, 8.748, 3.308, 10.265, 'esq'), 'W02': (2.453, 7.079, 3.293, 8.639, 'esq'),
+       'WSM': (0.423, 2.846, 2.400, 3.830, 'inf'), 'WEX': (7.443, 6.275, 8.239, 7.737, 'esq')}
 
 AMB['W01'] = _fix(wc_horizontal('W01', 'Banho Suíte 1', F['W01_esq'], F['W01_dir'], F['W01_sup'], 'sup',
                                 0.44, 1.66, 1.48, 0.56, pref='B1.'))
@@ -190,6 +208,9 @@ AMB['EXT'] = dict(nome='Áreas externas', sigla='EXT', pontos=[
       [('AF', '0,50', 'D')], [cota('x', F['SALA_ext'], F['SALA_ext'] + 0.98, '0,98', 'face externa da sala')],
       '0,98 da face externa da parede da sala'),
 ])
+
+for _k, _pref in (('W01', 'B1.'), ('W02', 'B2.'), ('WSM', 'BM.'), ('WEX', 'B4.')):
+    AMB[_k]['pontos'].append(ralo(_pref, BOX[_k][:4], BOX[_k][4]))
 
 ORDEM = ['COZ', 'GOU', 'LAV', 'W01', 'W02', 'WSM', 'WEX', 'EXT']
 

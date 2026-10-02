@@ -37,6 +37,8 @@ def legenda(s, y1=306.1, planta_geral=True, extra=None):
                           s.circle(x + 22, y - 3.2, 1.1, fill=COTA), s.text(x + 10, y - 5.4, '1,00', 6.5, 500, COTA_TXT, anc='middle')), 'Cota em metros'),
         (lambda s, x, y: s.rect(x - 2, y - 6, 24, 5.2, fill=PAREDE), 'Alvenaria'),
         (lambda s, x, y: s.rect(x - 2, y - 6, 24, 5.2, fill=JANELA), 'Janela / vidro'),
+        (lambda s, x, y: (s.rect(x - 2, y - 6, 24, 5.2, fill='#ffffff', stroke=TINTA, sw=0.5),
+                          [s.line(x + i * 2.4, y - 5.4, x + i * 2.4, y - 1.4, stroke=TINTA, sw=0.25) for i in range(9)]), 'Ralo linear (indicativo)'),
     ]
     if extra: col2 += extra
     for i, (fn, txt) in enumerate(col):
@@ -147,7 +149,10 @@ def prancha01():
     # pontos internos
     for k in D.ORDEM:
         if k == 'EXT': continue
-        for p in D.AMB[k]['pontos']: ponto_simples(s, v, p)
+        for p in D.AMB[k]['pontos']:
+            if p.get('ralo'):
+                import ampliacoes as _AM; _AM.desenhar_ralo(s, v, p['ralo'])
+            ponto_simples(s, v, p)
     pontos_ext_planta(s, v)
     titulo_desenho(s, 28, 1101, '01', 'Planta de pontos hidráulicos', 'Escala 1:100 · plotagem em A2 · posições conforme Planta Pontos Hidráulicos (29/09/2026)')
     barra_escala(s, 29, 1134.4, v.k, [0, 1, 2, 3, 4, 6, 8])
@@ -159,11 +164,11 @@ def prancha01():
     s.text(1208, 82, 'PRANCHA', 9.5, 700, c, anc='end')
     linhas = [('1', 'Cozinha', 'C1 a C4 · filtro, cuba, geladeira e lava-louças (mureta)', '02'),
               ('2', 'Área Gourmet', 'G1 · cuba com misturador', '02'),
-              ('3', 'A.S. · Área de serviço', 'L1 a L5 · torneiras do tanque, lava e seca, máquina, tanquinho', '02'),
-              ('4', 'Banho Suíte 1', 'B1.1 a B1.5 · chuveiro, ducha higiênica, bacia, cuba, registro', '03'),
-              ('5', 'Banho Suíte 2', 'B2.1 a B2.5 · espelhado em relação ao Banho Suíte 1', '03'),
-              ('6', 'Banho Suíte Master', 'BM.1 a BM.5 · chuveiro, ducha higiênica, bacia, cuba, registro', '03'),
-              ('7', 'Banho 4', 'B4.1 a B4.5 · chuveiro, ducha higiênica, bacia, cuba de sobrepor, registro', '03'),
+              ('3', 'A.S. · Área de serviço', 'L1 a L5 · torneiras e esgoto do tanque, máquina, tanquinho', '02'),
+              ('4', 'Banho Suíte 1', 'B1.1 a B1.6 · chuveiro, ducha higiênica, bacia, cuba, registro, ralo', '03'),
+              ('5', 'Banho Suíte 2', 'B2.1 a B2.6 · espelhado em relação ao Banho Suíte 1', '03'),
+              ('6', 'Banho Suíte Master', 'BM.1 a BM.6 · chuveiro, ducha higiênica, bacia, cuba, registro, ralo', '03'),
+              ('7', 'Banho 4', 'B4.1 a B4.6 · chuveiro, ducha, bacia, cuba de sobrepor, registro, ralo', '03'),
               ('8', 'Piscina', 'Ducha e registro (X1, X2), skimmer, retorno, reposição, ladrão, dreno', '04')]
     y = 108
     for num, amb, desc, pr in linhas:
@@ -189,7 +194,7 @@ def prancha01():
     fontes_quadro(s, x0, 882.0, x1, BASE, '1B', notas=[
         'Cada altura nos quadros das pranchas 02 a 04 traz a letra da sua fonte. Posições: Planta Pontos Hidráulicos (29/09/2026).',
         'R02 (02/10/2026): bacias Roca ONA com caixa acoplada (sem válvula de descarga); lavatórios e gourmet com misturador AF/AQ; '
-        'lava-louças na face da mureta; nomes dos ambientes conforme a elétrica; CAU corrigido. R03 (02/10/2026): ponto L2 da A.S. eliminado.'])
+        'lava-louças na face da mureta; nomes dos ambientes conforme a elétrica; CAU corrigido. R03: água fria do L2 eliminada. R04: L2 só com o esgoto do tanque; ralos lineares dos boxes (B1.6, B2.6, BM.6, B4.6).'])
 
     # ---- coluna 3
     legenda(s)
