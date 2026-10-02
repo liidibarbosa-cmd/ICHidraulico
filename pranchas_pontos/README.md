@@ -111,3 +111,41 @@ python3 verificar.py "../PRANCHAS PONTOS HIDRAULICOS - RESIDENCIA IC - R04.pdf"
   ainda "a confirmar" no caderno de ar condicionado.
 
 Regenerar: `python3 gas.py && HTML=gas.html PREFIXO=gas node imprimir.mjs ../gas "PRANCHA PONTOS DE GAS - RESIDENCIA IC - R02.pdf"`
+
+---
+
+# Caderno de Detalhamento · Áreas Molhadas — R00 · 02/10/2026
+`areas_molhadas/CADERNO AREAS MOLHADAS - RESIDENCIA IC - R00.pdf`: 9 folhas A3 retrato (297 × 420 mm), no padrão dos cadernos A3
+do escritório (revestimentos de parede/piso R00). Imprimir sem ajuste de escala. Fonte: `fonte/areas_molhadas.py` (+ `am_base.py`,
+`am_banhos.py`, `am_outras.py`).
+
+| Folha | Conteúdo | Escalas |
+|---|---|---|
+| 01 | Planta-chave, índice, legenda (pontos, revestimentos, status), observações gerais, pendências e divergências | 1/100 |
+| 02–05 | Banho Suíte 1, Banho Suíte 2, Banho Suíte Master, Banho 4: planta com pontos, box, ralo e cotas; box + parede das peças planificados (revestimento, J04, nicho, vidro, pontos e alturas); quadros de pontos e de elementos | 1/25 |
+| 06 | Cozinha: planta com C1–C4 e PG1 (gás); parede da janela + parede superior planificadas (RP07, J02); face da mureta com C4 | 1/50 · 1/25 |
+| 07 | Área Gourmet (planta, parede esquerda com faixa RP06 e churrasqueira) e A.S. (planta, parede do tanque com cotas L1–L5) | 1/50 · 1/25 |
+| 08 | Detalhes esquemáticos: ralo linear (planta e corte), box de correr + tabela de vãos, nicho 1/10, alturas propostas dos acessórios | indicadas |
+| 09 | Louças e metais: lista de 25/09 atualizada (misturadores AF/AQ propostos, engates, quantidades) | — |
+
+Status em cada informação: **DOCUMENTADO** (arquivos ou decisão do cliente), **PROPOSTA** (escritório: aprovar), **A DEFINIR**,
+**A CONFIRMAR** (divergência entre arquivos).
+
+- Definições usadas (02/10): só o box revestido (laterais RP02 + fundo RP03/RP04/RP05 até o forro 2,85); ducha higiênica, bacia e
+  cuba na pintura; box de correr 2 folhas (1 fixa + 1 de correr), h 2,10, não vai até o forro; ralo linear junto ao fundo do box e
+  nenhum ralo fora dele; J04 peitoril 1,50; nomes dos ambientes da elétrica; bancadas na prancha de marmoraria.
+- Pontos e alturas idênticos às pranchas hidráulicas R04 (mesmos dados de `dados_pontos.py`).
+- Vãos dos boxes pela planta de 29/09 (B1 1,52 × 0,86; B2 1,56 × 0,84; BM 1,98 × 0,98; B4 1,46 × 0,80). O caderno de revestimentos R00
+  usa o DWG R01 (laterais 0,90; fundos 1,50/1,50/1,95/1,40): revisar quantitativos.
+- Não inventado / a definir: lado da folha fixa e ferragem do box; modelo, comprimento e caimento do ralo; desnível do box;
+  impermeabilização (responsável técnico); posição da churrasqueira e altura da boca; registro da máquina de lavar.
+- Propostas do escritório: alturas dos acessórios (papeleira 0,60; rosto 1,10; barra 1,20; cabide 1,70) e misturadores
+  (Deca Level 2875.C26, Unic 2885.GF90.MT, Flex Plus 2250.C).
+
+Regenerar e conferir:
+```bash
+cd pranchas_pontos/fonte
+python3 areas_molhadas.py
+node imprimir_a3.mjs ../areas_molhadas "CADERNO AREAS MOLHADAS - RESIDENCIA IC - R00.pdf"
+python3 am_verificar.py "../areas_molhadas/CADERNO AREAS MOLHADAS - RESIDENCIA IC - R00.pdf"   # TOTAL DE ERROS: 0
+```
